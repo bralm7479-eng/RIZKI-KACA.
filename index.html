@@ -1,1 +1,256 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RIZKI KACA</title><link rel="stylesheet" href="style.css"></head><body><header><h1>RIZKI KACA</h1><p>Solusi Kaca Berkualitas</p></header><input id="q" placeholder="Cari produk..." oninput="render()"><div id="products"></div><script src="products.js"></script><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasir Sederhana</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#0f172a;
+    color:white;
+    padding:20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+.card{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+input,select,button{
+    padding:10px;
+    margin:5px;
+    border-radius:8px;
+    border:none;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:10px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    text-align:center;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>Kasir Sederhana</h2>
+
+<select id="barang"></select>
+
+<input type="number" id="qty" value="1" min="1">
+
+<button onclick="tambah()">Tambah</button>
+
+</div>
+
+<div class="card">
+
+<h3>Keranjang</h3>
+
+<table>
+<thead>
+<tr>
+<th>Barang</th>
+<th>Qty</th>
+<th>Subtotal</th>
+</tr>
+</thead>
+
+<tbody id="keranjang"></tbody>
+
+</table>
+
+<h2>Total : Rp <span id="total">0</span></h2>
+
+<button onclick="bayar()">Bayar</button>
+
+</div>
+
+<div class="card">
+
+<h3>Stok Barang</h3>
+
+<table>
+<thead>
+<tr>
+<th>Barang</th>
+<th>Harga</th>
+<th>Stok</th>
+</tr>
+</thead>
+
+<tbody id="stok"></tbody>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h3>Laporan Hari Ini</h3>
+
+<p>Total Pendapatan :
+<b>Rp <span id="pendapatan">0</span></b>
+</p>
+
+<p>Jumlah Transaksi :
+<b><span id="trx">0</span></b>
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+let produk=[
+{name:"Indomie",harga:3500,stok:20},
+{name:"Teh Botol",harga:5000,stok:15},
+{name:"Roti",harga:7000,stok:10},
+{name:"Kopi",harga:4000,stok:25}
+];
+
+let cart=[];
+let pendapatan=0;
+let transaksi=0;
+
+function load(){
+
+let select=document.getElementById("barang");
+select.innerHTML="";
+
+produk.forEach((p,i)=>{
+select.innerHTML+=`
+<option value="${i}">
+${p.name} - Rp ${p.harga} (Stok ${p.stok})
+</option>`;
+});
+
+let stok=document.getElementById("stok");
+stok.innerHTML="";
+
+produk.forEach(p=>{
+stok.innerHTML+=`
+<tr>
+<td>${p.name}</td>
+<td>Rp ${p.harga}</td>
+<td>${p.stok}</td>
+</tr>`;
+});
+
+}
+
+load();
+
+function tambah(){
+
+let i=document.getElementById("barang").value;
+let qty=parseInt(document.getElementById("qty").value);
+
+if(qty>produk[i].stok){
+alert("Stok tidak cukup");
+return;
+}
+
+cart.push({
+nama:produk[i].name,
+qty:qty,
+harga:produk[i].harga
+});
+
+render();
+
+}
+
+function render(){
+
+let tbody=document.getElementById("keranjang");
+
+tbody.innerHTML="";
+
+let total=0;
+
+cart.forEach(c=>{
+
+let sub=c.qty*c.harga;
+
+total+=sub;
+
+tbody.innerHTML+=`
+<tr>
+<td>${c.nama}</td>
+<td>${c.qty}</td>
+<td>Rp ${sub}</td>
+</tr>`;
+
+});
+
+document.getElementById("total").innerHTML=total;
+
+}
+
+function bayar(){
+
+let total=0;
+
+cart.forEach(c=>{
+
+total+=c.qty*c.harga;
+
+let p=produk.find(x=>x.name==c.nama);
+
+p.stok-=c.qty;
+
+});
+
+pendapatan+=total;
+
+transaksi++;
+
+document.getElementById("pendapatan").innerHTML=pendapatan;
+
+document.getElementById("trx").innerHTML=transaksi;
+
+cart=[];
+
+render();
+
+load();
+
+alert("Transaksi Berhasil");
+
+}
+
+</script>
+
+</body>
+</html>
