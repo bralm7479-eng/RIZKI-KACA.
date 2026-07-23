@@ -13,7 +13,7 @@ function render() {
         <h3>${p.name}</h3>
         <p>${p.code}</p>
         <h4>${p.price}</h4>
-        <a href="https://wa.me/62XXXXXXXXXX?text=Saya%20ingin%20pesan%20${encodeURIComponent(p.name)}" target="_blank">
+        <a href="https://wa.me/6285260100455?text=Saya%20ingin%20pesan%20${encodeURIComponent(p.name)}" target="_blank">
           <button>Pesan WhatsApp</button>
         </a>
       </div>
