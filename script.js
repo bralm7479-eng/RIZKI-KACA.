@@ -1,1 +1,24 @@
-function render(){let q=document.getElementById("q").value.toLowerCase();let d=document.getElementById("products");d.innerHTML="";products.filter(p=>p.name.toLowerCase().includes(q)||p.code.toLowerCase().includes(q)).forEach(p=>d.innerHTML+=`<div class="card"><div class="img"><img src="${p.image}" class="img"></div><h3>${p.name}</h3><p>${p.code}</p><b>${p.price}</b><br><a class="btn" target="_blank" href="https://wa.me/6285260100455?text=Halo%20RIZKI%20KACA,%20saya%20ingin%20memesan%20${encodeURIComponent(p.name)}">Pesan WhatsApp</a></div>`)}render();
+function render() {
+  let q = document.getElementById("q").value.toLowerCase();
+  let d = document.getElementById("products");
+
+  d.innerHTML = "";
+
+  products
+    .filter(p => p.name.toLowerCase().includes(q))
+    .forEach(p => {
+      d.innerHTML += `
+      <div class="card">
+        <img src="${p.image}" class="img" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p>${p.code}</p>
+        <h4>${p.price}</h4>
+        <a href="https://wa.me/62XXXXXXXXXX?text=Saya%20ingin%20pesan%20${encodeURIComponent(p.name)}" target="_blank">
+          <button>Pesan WhatsApp</button>
+        </a>
+      </div>
+      `;
+    });
+}
+
+render();
