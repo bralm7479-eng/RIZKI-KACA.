@@ -1,1 +1,1 @@
-# RIZKI-KACA. [{background:"kacatempered.jpeg"}]
+# RIZKI-KACA.
